@@ -78,7 +78,6 @@ defineExpose({
             placeholder="Master password"
             autocomplete="current-password"
             required
-            autofocus
           />
           <div style="display: flex; gap: 0.5rem">
             <button type="submit" class="pwd-gate-btn">

@@ -9,8 +9,17 @@ interface Entry {
   createdAt: string
 }
 
+// Fetch initial scores via useFetch for smooth SSR & hydration
+const { data: scoreData, status, error: fetchError, refresh: refreshScores } = await useFetch<Entry[]>('/api/scores', {
+  default: () => [],
+})
+
 const entries = ref<Entry[]>([])
-const isLoading = ref(true)
+watch(scoreData, (val) => {
+  if (val) entries.value = [...val]
+}, { immediate: true })
+
+const isLoading = computed(() => status.value === 'pending')
 const isSubmitting = ref(false)
 const flashScore = ref<Entry | null>(null)
 const appError = ref('')
@@ -21,19 +30,11 @@ const cachedPassword = ref<{ current: string | null }>({ current: null })
 const scoreFormRef = ref<InstanceType<typeof import('./components/ScoreForm.vue').default> | null>(null)
 const leaderboardRef = ref<InstanceType<typeof import('./components/Leaderboard.vue').default> | null>(null)
 
-// Fetch initial scores
-const loadScores = async () => {
-  try {
-    const result = await $fetch<Entry[]>('/api/scores')
-    entries.value = result
-  } catch {
+watch(fetchError, (err) => {
+  if (err) {
     appError.value = 'Failed to load scores. Try again soon.'
-  } finally {
-    isLoading.value = false
   }
-}
-
-onMounted(loadScores)
+})
 
 const sortedEntries = computed(() =>
   [...entries.value].sort((a, b) => b.score - a.score)

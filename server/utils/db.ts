@@ -1,20 +1,42 @@
 import postgres from 'postgres'
 
-const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL
+// Use explicit PG* vars (always present after `vercel env pull`) — avoids URL
+// parsing issues with libpq-only params like channel_binding.
+// Falls back to parsing POSTGRES_URL if individual vars aren't set.
+const host     = process.env.PGHOST     || process.env.POSTGRES_HOST
+const user     = process.env.PGUSER     || process.env.POSTGRES_USER
+const password = process.env.PGPASSWORD || process.env.POSTGRES_PASSWORD
+const database = process.env.PGDATABASE || process.env.POSTGRES_DATABASE
+const rawUrl   = process.env.POSTGRES_URL || process.env.DATABASE_URL
 
-export const sql = postgres(connectionString || '', {
-  ssl: connectionString && (connectionString.includes('localhost') || connectionString.includes('127.0.0.1')) ? false : 'require',
-  max: 10,
-  idle_timeout: 20,
-  connect_timeout: 10,
-})
+const hasExplicitVars = host && user && password && database
+
+export const sql = hasExplicitVars
+  ? postgres({
+      host,
+      user,
+      password,
+      database,
+      port: 5432,
+      ssl: 'require',
+      max: 10,
+      idle_timeout: 20,
+      connect_timeout: 10,
+    })
+  : postgres(rawUrl || '', {
+      ssl: 'require',
+      max: 10,
+      idle_timeout: 20,
+      connect_timeout: 10,
+    })
+
 
 let dbInitialized = false
 
 export async function ensureDb() {
   if (dbInitialized) return
-  if (!connectionString) {
-    console.warn('POSTGRES_URL or DATABASE_URL is not set. Database operations will fail.')
+  if (!hasExplicitVars && !rawUrl) {
+    console.warn('No DB credentials found. Set PGHOST/PGUSER/PGPASSWORD/PGDATABASE or POSTGRES_URL.')
     return
   }
 

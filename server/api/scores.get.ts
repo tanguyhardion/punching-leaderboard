@@ -20,10 +20,11 @@ export default defineEventHandler(async (event) => {
       createdAt: row.created_at,
     }))
   } catch (err: any) {
-    console.error('[GET /api/scores] Error fetching scores:', err.message || err)
+    const msg = err?.message || String(err) || 'unknown error'
+    console.error('[GET /api/scores] Error fetching scores:', msg)
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to retrieve scores.',
+      statusMessage: `DB error: ${msg}`,
     })
   }
 })
