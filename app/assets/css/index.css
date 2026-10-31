@@ -65,6 +65,33 @@ h1 {
   text-shadow: 4px 4px 0 var(--red);
 }
 
+.glove { display: inline-block; font-size: 0.8em; animation: jab 1.4s steps(1) infinite; }
+.glove.flip { transform: scaleX(-1); animation-delay: 0.7s; }
+
+@keyframes jab {
+  0%, 60%, 100% { translate: 0 0; }
+  70% { translate: 10px 0; }
+  80% { translate: 0 0; }
+}
+.glove.flip { animation-name: jab-flip; }
+@keyframes jab-flip {
+  0%, 60%, 100% { translate: 0 0; }
+  70% { translate: -10px 0; }
+  80% { translate: 0 0; }
+}
+
+.pow {
+  display: inline-block;
+  margin-right: 0.6rem;
+  padding: 0.1rem 0.5rem;
+  font-family: var(--pixel);
+  font-size: 0.8rem;
+  color: var(--ink);
+  background: var(--red);
+  border: 3px solid var(--line);
+  transform: rotate(-6deg);
+}
+
 .subtitle { margin: 0; color: var(--muted); font-size: 1.3rem; }
 
 /* ── Panels ── */
@@ -176,6 +203,8 @@ button:disabled { opacity: 0.6; cursor: wait; }
 
 .leaderboard li.podium { border-color: var(--yellow); }
 .leaderboard li.first { background: #3a2f10; }
+.leaderboard li.first .position::before { content: "👑 "; }
+.leaderboard li.first .score { color: var(--yellow); }
 
 .position { font-family: var(--pixel); font-size: 0.6rem; color: var(--muted); }
 .podium .position { color: var(--yellow); }
@@ -211,7 +240,11 @@ time { color: var(--muted); font-size: 1rem; }
 .error-banner { background: var(--red); }
 .loading { background: var(--panel); text-align: center; color: var(--muted); animation: blink 1s steps(1) infinite; }
 
-@keyframes pop { from { transform: scale(0.9); } to { transform: scale(1); } }
+@keyframes pop {
+  0% { transform: scale(0.9) rotate(-2deg); }
+  50% { transform: scale(1.04) rotate(1deg); }
+  100% { transform: scale(1); }
+}
 
 /* ── Password popup ── */
 .pwd-gate-overlay {

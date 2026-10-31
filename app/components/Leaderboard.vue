@@ -106,7 +106,7 @@ defineExpose({ triggerError, closeGate })
     </div>
 
     <div class="leaderboard-header">
-      <h2>High Scores</h2>
+      <h2>The Champs</h2>
       <span>Top 200</span>
     </div>
 

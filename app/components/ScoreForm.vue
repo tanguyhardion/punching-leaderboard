@@ -64,7 +64,7 @@ defineExpose({
     <div v-if="gateOpen" class="pwd-gate-overlay" role="dialog" aria-modal="true" aria-label="Score submission locked">
       <div class="pwd-gate-card glass" :class="{ shake: shaking }">
         <div class="pwd-gate-icon" aria-hidden="true">🔒</div>
-        <h2 class="pwd-gate-title">Staff Only</h2>
+        <h2 class="pwd-gate-title">Ref Check</h2>
         <p class="pwd-gate-subtitle">
           Enter the password to save this score.
         </p>
@@ -97,15 +97,15 @@ defineExpose({
 
     <!-- Main Score Form -->
     <form class="score-form" @submit.prevent="handleFormSubmit">
-      <h2>New Score</h2>
-      <p>Took a swing? Put it on the board.</p>
+      <h2>Throw a Punch</h2>
+      <p>Hit the machine? Log it.</p>
 
       <label>
         Name
         <input
           name="player"
           v-model="form.player"
-          placeholder="Your name"
+          placeholder="Fighter name"
           maxlength="20"
           required
         />
@@ -135,7 +135,7 @@ defineExpose({
       </label>
 
       <button type="submit" :disabled="isSubmitting">
-        {{ isSubmitting ? 'Saving...' : 'Submit' }}
+        {{ isSubmitting ? 'Winding up...' : '🥊 Punch it!' }}
       </button>
     </form>
   </div>

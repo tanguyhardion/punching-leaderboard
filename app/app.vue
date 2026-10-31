@@ -107,10 +107,10 @@ const handleDelete = async (id: string, password: string) => {
 <template>
   <div class="app-shell">
     <header class="hero">
-      <p class="badge">Insert Coin</p>
-      <h1>Punch Machine</h1>
+      <p class="badge">Round 1 · Fight!</p>
+      <h1><span class="glove" aria-hidden="true">🥊</span> Punch Machine <span class="glove flip" aria-hidden="true">🥊</span></h1>
       <p class="subtitle">
-        Hit it hard. Get on the board.
+        Throw a punch. Take the belt.
       </p>
     </header>
 
@@ -119,6 +119,7 @@ const handleDelete = async (id: string, password: string) => {
 
       <section v-if="flashScore" class="impact-banner" role="status">
         <p>
+          <span class="pow" aria-hidden="true">POW!</span>
           <strong>{{ flashScore.player }}</strong> just hit {{ flashScore.score }}!
         </p>
       </section>

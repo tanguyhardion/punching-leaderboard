@@ -20,7 +20,7 @@ export default defineNuxtConfig({
         {
           hid: 'description',
           name: 'description',
-          content: 'Hit it hard. Get on the board.'
+          content: 'Throw a punch. Take the belt.'
         }
       ],
       link: [
