@@ -23,6 +23,14 @@ const isLoading = computed(() => status.value === 'pending')
 const isSubmitting = ref(false)
 const flashScore = ref<Entry | null>(null)
 const appError = ref('')
+const podiumAlert = ref<{ rank: number; player: string; score: number } | null>(null)
+let podiumTimer: ReturnType<typeof setTimeout> | undefined
+
+const podiumTitles: Record<number, string> = {
+  1: 'NEW CHAMP!',
+  2: 'SO CLOSE! 2ND PLACE',
+  3: 'ON THE PODIUM! 3RD PLACE',
+}
 
 // Cached password so user is not re-prompted on each delete
 const cachedPassword = ref<{ current: string | null }>({ current: null })
@@ -63,6 +71,15 @@ const handleSubmit = async (
     cachedPassword.value.current = password
     entries.value = [created, ...entries.value]
     scoreFormRef.value?.resetForm()
+
+    const rank = sortedEntries.value.findIndex((e) => e.id === created.id) + 1
+    if (rank >= 1 && rank <= 3) {
+      clearTimeout(podiumTimer)
+      podiumAlert.value = { rank, player: created.player, score: created.score }
+      podiumTimer = setTimeout(() => {
+        podiumAlert.value = null
+      }, 3500)
+    }
 
     flashScore.value = created
     setTimeout(() => {
@@ -106,6 +123,13 @@ const handleDelete = async (id: string, password: string) => {
 
 <template>
   <div class="app-shell">
+    <Transition name="podium">
+      <div v-if="podiumAlert" class="podium-alert" :class="`rank-${podiumAlert.rank}`" role="status">
+        <span class="podium-alert-title">{{ podiumTitles[podiumAlert.rank] }}</span>
+        <span class="podium-alert-sub">{{ podiumAlert.player }} · {{ podiumAlert.score }}</span>
+      </div>
+    </Transition>
+
     <header class="hero">
       <h1><span class="glove" aria-hidden="true">🥊</span> Punch Machine <span class="glove flip" aria-hidden="true">🥊</span></h1>
       <p class="subtitle">

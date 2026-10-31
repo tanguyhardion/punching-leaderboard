@@ -286,3 +286,36 @@ time { color: var(--muted); font-size: 1rem; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; }
 }
+
+/* ── Podium alert ── */
+.podium-alert {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 38%;
+  z-index: 900;
+  display: grid;
+  gap: 0.6rem;
+  justify-items: center;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: var(--line);
+  background: var(--yellow);
+  border-block: 6px solid var(--line);
+  box-shadow: 0 8px 0 var(--line);
+  pointer-events: none;
+}
+.podium-alert.rank-2 { background: var(--cyan); }
+.podium-alert.rank-3 { background: var(--red); color: var(--ink); }
+.podium-alert-title { font-family: var(--pixel); font-size: clamp(1rem, 4.5vw, 2.4rem); line-height: 1.4; }
+.podium-alert-sub { font-size: 1.6rem; }
+
+.podium-enter-active { animation: slam 0.45s steps(5); }
+.podium-leave-active { transition: opacity 0.3s steps(3), transform 0.3s steps(3); }
+.podium-leave-to { opacity: 0; transform: translateX(100%); }
+
+@keyframes slam {
+  0% { transform: translateX(-100%); }
+  70% { transform: translateX(3%); }
+  100% { transform: translateX(0); }
+}
