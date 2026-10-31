@@ -13,20 +13,20 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Punching Machine Leaderboard',
+      title: 'Punch Machine',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           hid: 'description',
           name: 'description',
-          content: 'Track every hit, rise through the rankings, and own the neon arena on the global Punching Machine Leaderboard.'
+          content: 'Throw a punch. Take the belt.'
         }
       ],
       link: [
         {
           rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Rajdhani:wght@400;600;700&display=swap'
+          href: 'https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap'
         }
       ]
     }

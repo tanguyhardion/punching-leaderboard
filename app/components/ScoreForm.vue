@@ -64,9 +64,9 @@ defineExpose({
     <div v-if="gateOpen" class="pwd-gate-overlay" role="dialog" aria-modal="true" aria-label="Score submission locked">
       <div class="pwd-gate-card glass" :class="{ shake: shaking }">
         <div class="pwd-gate-icon" aria-hidden="true">🔒</div>
-        <h2 class="pwd-gate-title">Secure Zone</h2>
+        <h2 class="pwd-gate-title">Ref Check</h2>
         <p class="pwd-gate-subtitle">
-          Enter the master password to submit your punch score.
+          Enter the password to save this score.
         </p>
         <p v-if="passwordError" class="pwd-error" role="alert">{{ passwordError }}</p>
         <form @submit.prevent="handleUnlock" class="pwd-gate-form">
@@ -79,14 +79,13 @@ defineExpose({
             autocomplete="current-password"
             required
           />
-          <div style="display: flex; gap: 0.5rem">
+          <div class="pwd-gate-actions">
             <button type="submit" class="pwd-gate-btn">
-              Unlock &amp; Submit
+              Save
             </button>
             <button
               type="button"
-              class="pwd-gate-btn"
-              style="background: linear-gradient(95deg, #ff5f6d, #ffc371); color: #fff;"
+              class="pwd-gate-btn cancel"
               @click="closeGate"
             >
               Cancel
@@ -98,45 +97,45 @@ defineExpose({
 
     <!-- Main Score Form -->
     <form class="score-form" @submit.prevent="handleFormSubmit">
-      <h2>Log Your Punch</h2>
-      <p>Drop your best hit and challenge the leaderboard.</p>
+      <h2>Throw a Punch</h2>
+      <p>Hit the machine? Log it.</p>
 
       <label>
-        Fighter Name
+        Name
         <input
           name="player"
           v-model="form.player"
-          placeholder="e.g. Neon Crusher"
+          placeholder="Fighter name"
           maxlength="20"
           required
         />
       </label>
 
       <label>
-        Punch Score
+        Score
         <input
           name="score"
           v-model="form.score"
           type="number"
           min="1"
           max="999"
-          placeholder="0 - 999"
+          placeholder="1 - 999"
           required
         />
       </label>
 
       <label>
-        Signature Move
+        Move name
         <input
           name="power"
           v-model="form.power"
           maxlength="28"
-          placeholder="Meteor Uppercut"
+          placeholder="Optional"
         />
       </label>
 
       <button type="submit" :disabled="isSubmitting">
-        {{ isSubmitting ? 'Charging...' : 'Submit Score 🔒' }}
+        {{ isSubmitting ? 'Winding up...' : '🥊 Punch it!' }}
       </button>
     </form>
   </div>

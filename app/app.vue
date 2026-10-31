@@ -23,6 +23,14 @@ const isLoading = computed(() => status.value === 'pending')
 const isSubmitting = ref(false)
 const flashScore = ref<Entry | null>(null)
 const appError = ref('')
+const podiumAlert = ref<{ rank: number; player: string; score: number } | null>(null)
+let podiumTimer: ReturnType<typeof setTimeout> | undefined
+
+const podiumTitles: Record<number, string> = {
+  1: 'NEW CHAMP!',
+  2: 'SO CLOSE! 2ND PLACE',
+  3: 'ON THE PODIUM! 3RD PLACE',
+}
 
 // Cached password so user is not re-prompted on each delete
 const cachedPassword = ref<{ current: string | null }>({ current: null })
@@ -32,7 +40,7 @@ const leaderboardRef = ref<InstanceType<typeof import('./components/Leaderboard.
 
 watch(fetchError, (err) => {
   if (err) {
-    appError.value = 'Failed to load scores. Try again soon.'
+    appError.value = "Couldn't load scores. Try again."
   }
 })
 
@@ -64,6 +72,15 @@ const handleSubmit = async (
     entries.value = [created, ...entries.value]
     scoreFormRef.value?.resetForm()
 
+    const rank = sortedEntries.value.findIndex((e) => e.id === created.id) + 1
+    if (rank >= 1 && rank <= 3) {
+      clearTimeout(podiumTimer)
+      podiumAlert.value = { rank, player: created.player, score: created.score }
+      podiumTimer = setTimeout(() => {
+        podiumAlert.value = null
+      }, 3500)
+    }
+
     flashScore.value = created
     setTimeout(() => {
       flashScore.value = null
@@ -74,7 +91,7 @@ const handleSubmit = async (
       // Wrong password — tell form to shake and re-open
       scoreFormRef.value?.handleReject()
     } else {
-      appError.value = 'Score upload interrupted. Retry your punch.'
+      appError.value = "Score didn't save. Try again."
     }
   } finally {
     isSubmitting.value = false
@@ -106,13 +123,17 @@ const handleDelete = async (id: string, password: string) => {
 
 <template>
   <div class="app-shell">
-    <div class="ambient-glow" aria-hidden="true" />
+    <Transition name="podium">
+      <div v-if="podiumAlert" class="podium-alert" :class="`rank-${podiumAlert.rank}`" role="status">
+        <span class="podium-alert-title">{{ podiumTitles[podiumAlert.rank] }}</span>
+        <span class="podium-alert-sub">{{ podiumAlert.player }} · {{ podiumAlert.score }}</span>
+      </div>
+    </Transition>
 
     <header class="hero">
-      <p class="badge">Arcade Ring</p>
-      <h1>Punching Machine Leaderboard</h1>
+      <h1><span class="glove" aria-hidden="true">🥊</span> Punch Machine <span class="glove flip" aria-hidden="true">🥊</span></h1>
       <p class="subtitle">
-        Track every hit, rise through the rankings, and own the neon arena.
+        Throw a punch. Take the belt.
       </p>
     </header>
 
@@ -121,7 +142,8 @@ const handleDelete = async (id: string, password: string) => {
 
       <section v-if="flashScore" class="impact-banner" role="status">
         <p>
-          <strong>{{ flashScore.player }}</strong> landed a {{ flashScore.score }} impact!
+          <span class="pow" aria-hidden="true">POW!</span>
+          <strong>{{ flashScore.player }}</strong> just hit {{ flashScore.score }}!
         </p>
       </section>
 
@@ -135,7 +157,7 @@ const handleDelete = async (id: string, password: string) => {
           :is-submitting="isSubmitting"
           @submit="handleSubmit"
         />
-        <p v-if="isLoading" class="loading">Powering the scoreboard...</p>
+        <p v-if="isLoading" class="loading">LOADING...</p>
         <Leaderboard
           v-else
           ref="leaderboardRef"

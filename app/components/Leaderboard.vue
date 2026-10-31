@@ -24,6 +24,12 @@ const pwd = ref('')
 const error = ref('')
 const shaking = ref(false)
 
+const ordinal = (n: number) => {
+  const s = ['TH', 'ST', 'ND', 'RD']
+  const v = n % 100
+  return n + (s[(v - 20) % 10] || s[v] || s[0])
+}
+
 const formatScore = (value: number) => new Intl.NumberFormat('en-US').format(value)
 const formatTime = (value: string) =>
   new Intl.DateTimeFormat('en-US', {
@@ -71,9 +77,9 @@ defineExpose({ triggerError, closeGate })
     <div v-if="showGate" class="pwd-gate-overlay" role="dialog" aria-modal="true" aria-label="Confirm deletion password">
       <div class="pwd-gate-card glass" :class="{ shake: shaking }">
         <div class="pwd-gate-icon" aria-hidden="true">⚠️</div>
-        <h2 class="pwd-gate-title">Authorize Delete</h2>
+        <h2 class="pwd-gate-title">Delete score?</h2>
         <p class="pwd-gate-subtitle">
-          Enter the master password to delete this entry.
+          Enter the password to remove this score.
         </p>
         <p v-if="error" class="pwd-error" role="alert">{{ error }}</p>
         <form @submit.prevent="handleUnlock" class="pwd-gate-form">
@@ -85,12 +91,11 @@ defineExpose({ triggerError, closeGate })
             autocomplete="current-password"
             required
           />
-          <div style="display: flex; gap: 0.5rem">
-            <button type="submit" class="pwd-gate-btn">Confirm</button>
+          <div class="pwd-gate-actions">
+            <button type="submit" class="pwd-gate-btn">Delete</button>
             <button
               type="button"
-              class="pwd-gate-btn"
-              style="background: linear-gradient(95deg, #ff5f6d, #ffc371); color: #fff;"
+              class="pwd-gate-btn cancel"
               @click="closeGate"
             >
               Cancel
@@ -101,17 +106,17 @@ defineExpose({ triggerError, closeGate })
     </div>
 
     <div class="leaderboard-header">
-      <h2>Arcade Rankings</h2>
-      <span>Live board</span>
+      <h2>The Champs</h2>
+      <span>Top 200</span>
     </div>
 
     <ol>
       <li
         v-for="(entry, index) in entries"
         :key="entry.id"
-        :class="{ podium: index < 3 }"
+        :class="{ podium: index < 3, first: index === 0 }"
       >
-        <span class="position">#{{ index + 1 }}</span>
+        <span class="position">{{ ordinal(index + 1) }}</span>
         <div class="fighter-details">
           <strong>{{ entry.player }}</strong>
           <small>{{ entry.power }}</small>
@@ -124,7 +129,7 @@ defineExpose({ triggerError, closeGate })
           :title="`Delete score for ${entry.player}`"
           :aria-label="`Delete score for ${entry.player}`"
         >
-          🗑️
+          ✕
         </button>
       </li>
     </ol>
