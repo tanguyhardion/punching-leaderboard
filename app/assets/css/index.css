@@ -196,7 +196,7 @@ button:disabled { opacity: 0.6; cursor: wait; }
 .position { font-family: var(--pixel); font-size: 0.6rem; color: var(--muted); }
 .podium .position { color: var(--yellow); }
 
-.fighter-details { display: grid; min-width: 0; overflow-wrap: anywhere; }
+.fighter-details { display: grid; min-width: 0; overflow-wrap: break-word; }
 .fighter-details strong { font-size: 1.4rem; font-weight: 400; }
 .fighter-details small { color: var(--muted); font-size: 1.05rem; }
 
@@ -318,4 +318,16 @@ time { color: var(--muted); font-size: 1rem; }
   0% { transform: translateX(-100%); }
   70% { transform: translateX(3%); }
   100% { transform: translateX(0); }
+}
+
+@media (max-width: 520px) {
+  .app-shell { width: min(1040px, 100% - 1.5rem); }
+  .score-form, .leaderboard { padding: 0.8rem; }
+  .leaderboard li { grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 0.5rem; padding: 0.5rem; }
+  .leaderboard li.first .position::before { content: "👑"; display: block; }
+  .position { font-size: 0.5rem; text-align: center; }
+  .fighter-details strong { font-size: 1.2rem; line-height: 1.1; }
+  .fighter-details small { font-size: 0.95rem; line-height: 1.1; }
+  .score { font-size: 0.85rem; }
+  .delete-btn { padding: 0.15rem 0.3rem; }
 }
