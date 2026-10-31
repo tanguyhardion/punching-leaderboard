@@ -32,7 +32,7 @@ const leaderboardRef = ref<InstanceType<typeof import('./components/Leaderboard.
 
 watch(fetchError, (err) => {
   if (err) {
-    appError.value = 'Failed to load scores. Try again soon.'
+    appError.value = "Couldn't load scores. Try again."
   }
 })
 
@@ -74,7 +74,7 @@ const handleSubmit = async (
       // Wrong password — tell form to shake and re-open
       scoreFormRef.value?.handleReject()
     } else {
-      appError.value = 'Score upload interrupted. Retry your punch.'
+      appError.value = "Score didn't save. Try again."
     }
   } finally {
     isSubmitting.value = false
@@ -106,13 +106,11 @@ const handleDelete = async (id: string, password: string) => {
 
 <template>
   <div class="app-shell">
-    <div class="ambient-glow" aria-hidden="true" />
-
     <header class="hero">
-      <p class="badge">Arcade Ring</p>
-      <h1>Punching Machine Leaderboard</h1>
+      <p class="badge">Insert Coin</p>
+      <h1>Punch Machine</h1>
       <p class="subtitle">
-        Track every hit, rise through the rankings, and own the neon arena.
+        Hit it hard. Get on the board.
       </p>
     </header>
 
@@ -121,7 +119,7 @@ const handleDelete = async (id: string, password: string) => {
 
       <section v-if="flashScore" class="impact-banner" role="status">
         <p>
-          <strong>{{ flashScore.player }}</strong> landed a {{ flashScore.score }} impact!
+          <strong>{{ flashScore.player }}</strong> just hit {{ flashScore.score }}!
         </p>
       </section>
 
@@ -135,7 +133,7 @@ const handleDelete = async (id: string, password: string) => {
           :is-submitting="isSubmitting"
           @submit="handleSubmit"
         />
-        <p v-if="isLoading" class="loading">Powering the scoreboard...</p>
+        <p v-if="isLoading" class="loading">LOADING...</p>
         <Leaderboard
           v-else
           ref="leaderboardRef"

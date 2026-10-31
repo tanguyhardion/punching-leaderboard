@@ -30,15 +30,15 @@ const averageScore = computed(() => {
 <template>
   <section class="stats-grid" aria-label="Score overview">
     <article>
-      <h3>Highest Hit</h3>
+      <h3>High Score</h3>
       <p>{{ formatScore(topScore) }}</p>
     </article>
     <article>
-      <h3>Average Impact</h3>
+      <h3>Average</h3>
       <p>{{ formatScore(averageScore) }}</p>
     </article>
     <article>
-      <h3>Total Fighters</h3>
+      <h3>Players</h3>
       <p>{{ entries.length }}</p>
     </article>
   </section>
