@@ -196,7 +196,7 @@ button:disabled { opacity: 0.6; cursor: wait; }
 .position { font-family: var(--pixel); font-size: 0.6rem; color: var(--muted); }
 .podium .position { color: var(--yellow); }
 
-.fighter-details { display: grid; }
+.fighter-details { display: grid; min-width: 0; overflow-wrap: anywhere; }
 .fighter-details strong { font-size: 1.4rem; font-weight: 400; }
 .fighter-details small { color: var(--muted); font-size: 1.05rem; }
 
@@ -278,8 +278,8 @@ time { color: var(--muted); font-size: 1rem; }
 }
 
 @media (max-width: 900px) {
-  .arena-grid, .stats-grid { grid-template-columns: 1fr; }
-  .leaderboard li { grid-template-columns: 2.6rem 1fr auto auto; }
+  .arena-grid, .stats-grid { grid-template-columns: minmax(0, 1fr); }
+  .leaderboard li { grid-template-columns: 2.6rem minmax(0, 1fr) auto auto; }
   .leaderboard li time { display: none; }
 }
 
