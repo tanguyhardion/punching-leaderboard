@@ -21,4 +21,3 @@ The `public.scores` table is created automatically on first request.
 ## Scripts
 
 - `npm run build` / `npm run preview` – production build and preview.
-- `npm run import-scores` – seed/upsert historical scores (see `scripts/import-scores.mjs`, `scores_rows.csv`).

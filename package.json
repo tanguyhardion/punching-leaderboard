@@ -7,16 +7,12 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "import-scores": "node scripts/import-scores.mjs"
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "nuxt": "^4.5.0",
     "postgres": "^3.4.9",
     "vue": "^3.5.40",
     "vue-router": "^5.2.0"
-  },
-  "devDependencies": {
-    "dotenv": "^16.4.5"
   }
 }
