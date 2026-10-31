@@ -107,7 +107,6 @@ const handleDelete = async (id: string, password: string) => {
 <template>
   <div class="app-shell">
     <header class="hero">
-      <p class="badge">Round 1 · Fight!</p>
       <h1><span class="glove" aria-hidden="true">🥊</span> Punch Machine <span class="glove flip" aria-hidden="true">🥊</span></h1>
       <p class="subtitle">
         Throw a punch. Take the belt.

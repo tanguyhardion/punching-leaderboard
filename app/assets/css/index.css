@@ -36,19 +36,6 @@ body {
 /* ── Header ── */
 .hero { text-align: center; margin-bottom: 1.75rem; }
 
-.badge {
-  display: inline-block;
-  margin: 0;
-  padding: 0.5rem 0.8rem;
-  font-family: var(--pixel);
-  font-size: 0.6rem;
-  color: var(--line);
-  background: var(--yellow);
-  border: 3px solid var(--line);
-  box-shadow: 4px 4px 0 var(--line);
-  animation: blink 1.2s steps(1) infinite;
-}
-
 @keyframes blink { 50% { opacity: 0.55; } }
 
 h1, h2, h3 {
@@ -60,7 +47,7 @@ h1, h2, h3 {
 
 h1 {
   font-size: clamp(1.4rem, 5vw, 2.6rem);
-  margin: 1.2rem 0 0.8rem;
+  margin: 0 0 0.8rem;
   color: var(--yellow);
   text-shadow: 4px 4px 0 var(--red);
 }
