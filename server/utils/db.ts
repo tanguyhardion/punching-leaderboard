@@ -17,15 +17,15 @@ export const sql = hasExplicitVars
       user,
       password,
       database,
-      port: 5432,
+      port: Number(process.env.PGPORT) || 5432,
       ssl: 'require',
-      max: 10,
+      max: Number(process.env.PG_POOL_MAX) || 3,
       idle_timeout: 20,
       connect_timeout: 10,
     })
   : postgres(rawUrl || '', {
       ssl: 'require',
-      max: 10,
+      max: Number(process.env.PG_POOL_MAX) || 3,
       idle_timeout: 20,
       connect_timeout: 10,
     })

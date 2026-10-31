@@ -1,75 +1,24 @@
-# Nuxt Minimal Starter
+# Punching Machine Leaderboard
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Nuxt 4 app backed by Postgres (Neon), deployed on Vercel.
 
 ## Setup
 
-Make sure to install dependencies:
-
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+cp .env.example .env.local   # fill in values
+npm run dev                  # http://localhost:3000
 ```
 
-## Development Server
+## Environment variables
 
-Start the development server on `http://localhost:3000`:
+- `SUBMIT_PASSWORD` – required to POST/DELETE scores (sent as `x-submit-password`).
+- `PGHOST`, `PGUSER`, `PGPASSWORD`, `PGDATABASE` (optional `PGPORT`) or `POSTGRES_URL`/`DATABASE_URL`.
+- `PG_POOL_MAX` – optional pool size (default 3).
 
-```bash
-# npm
-npm run dev
+The `public.scores` table is created automatically on first request.
 
-# pnpm
-pnpm dev
+## Scripts
 
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- `npm run build` / `npm run preview` – production build and preview.
+- `npm run import-scores` – seed/upsert historical scores (see `scripts/import-scores.mjs`, `scores_rows.csv`).

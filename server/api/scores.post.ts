@@ -1,24 +1,9 @@
 import { defineEventHandler, readBody, createError } from 'h3'
 import { sql, ensureDb } from '../utils/db'
+import { requireSubmitPassword } from '../utils/auth'
 
 export default defineEventHandler(async (event) => {
-  // Master password check
-  const masterPassword = process.env.SUBMIT_PASSWORD
-  if (!masterPassword) {
-    console.error('[POST /api/scores] SUBMIT_PASSWORD env var is not set')
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Server misconfiguration.',
-    })
-  }
-
-  const provided = event.headers.get('x-submit-password')
-  if (!provided || provided !== masterPassword) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: 'Unauthorized. Invalid or missing password.',
-    })
-  }
+  requireSubmitPassword(event, 'POST /api/scores')
 
   try {
     const body = await readBody(event)

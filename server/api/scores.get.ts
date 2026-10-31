@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
     console.error('[GET /api/scores] Error fetching scores:', msg)
     throw createError({
       statusCode: 500,
-      statusMessage: `DB error: ${msg}`,
+      statusMessage: 'Failed to fetch scores.',
     })
   }
 })
